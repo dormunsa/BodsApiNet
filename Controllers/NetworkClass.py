@@ -10,7 +10,6 @@ from Logic.Camera import *
 from Logic.Detection import *
 import boto3
 
-
 #cahnge pic number for save detected images
 def getPicIndex():
      global picIndex
@@ -20,6 +19,7 @@ def getPicIndex():
 
 
 class GetPicture(Resource):
+
 
     def post(self):
         r = request
@@ -54,6 +54,7 @@ class GetPicture(Resource):
             # save frame in amazon
             s3 = boto3.client('s3')
             s3.upload_file('./result/result_img' + str(index)+ '.jpg', 'detection-files-bods', 'result_img' + str(index)+ '.jpg')
+            requests.get('http://localhost:5000/msg?image=' + 'https://detection-files-bods.s3.amazonaws.com/result_img' + str(index)+ '.jpg')
 
         # build a response dict to send back to client
         response = {'message': str(balloonDetected)}

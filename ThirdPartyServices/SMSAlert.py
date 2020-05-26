@@ -18,4 +18,3 @@ def sendSMSAlert(phonenumber):
                            body="Balloon Detected")
 
 
-sendSMSAlert("+972525570573")
