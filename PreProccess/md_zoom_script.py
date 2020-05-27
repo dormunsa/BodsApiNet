@@ -15,7 +15,7 @@ def crop_image(img, xy, scale_factor):
 
     global i
 
-    if ( i % 3 == 0 ):     
+    if ( i % 7 == 0 ):
         axisX = xy[0]
         axisY = xy[1]
 
@@ -34,12 +34,12 @@ def crop_image(img, xy, scale_factor):
         cropped_img = cropped_img.resize((1600,1200))
 
 
-        cropped_img.save('output/newzoom' + str(i / 3) + '.JPEG', quality=95)
+        cropped_img.save('output/newzoom' + str(i / 7) + '.JPEG', quality=95)
 
         content_type = 'image/jpeg'
         headers = {'content-type': content_type}
 
-        img = cv2.imread('output/newzoom' + str(i / 3) + '.JPEG')
+        img = cv2.imread('output/newzoom' + str(i / 7) + '.JPEG')
         # encode image as jpeg
         _, img_encoded = cv2.imencode('.jpg', img)
         # send http request with image and receive response
@@ -83,7 +83,7 @@ def getVideo(videoName):
           y = y + (2.5 * h)
           print(y)     
         
-      cv2.imshow("inter",frame1)
+      #cv2.imshow("inter",frame1)
       cv2.imwrite("output/motion.jpg", frame2)
 
       if cv2.waitKey(40) == 27:
