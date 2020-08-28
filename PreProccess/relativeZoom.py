@@ -23,13 +23,15 @@ def crop_image(img, xy, scale_factor, m):
         scale_factor = 5
     if (scale_factor > 1000):
         scale_factor = 10
-
+    # check frame number 
     if (i % 7 == 0):
         w, h = img.size
         img = img.crop((xy[0] - w / scale_factor, xy[1] - h / scale_factor,
                         xy[0] + w / scale_factor, xy[1] + h / scale_factor))
+        # resize frame number                
         cropped_img = img.resize((w, h), Image.LANCZOS)
         cropped_img.save('output/newzoom' + str(i / 7) + '-' + str(m) + '.JPEG', quality=95)
+        # define detection request frame number
         content_type = 'image/jpeg'
         headers = {'content-type': content_type}
         img = cv2.imread('output/newzoom' + str(i / 7) + '-' + str(m) + '.JPEG')
@@ -49,16 +51,17 @@ def distance_to_camera(knownWidth, focalLength, perWidth):
 
 
 def main(videoName):
+    # open video
     cap = cv2.VideoCapture(videoName)
 
     if cap.isOpened():
         ret, frame = cap.read()
     else:
         ret = False
-
+    # read frames 
     ret, frame1 = cap.read()
     ret, frame2 = cap.read()
-
+    
     cv2.imwrite("output/motion.png", frame2)
     img = Image.open("output/motion.png")
 
@@ -84,7 +87,6 @@ def main(videoName):
         box = np.int0(box)
         cv2.drawContours(frame1, [box], -1, (0, 255, 0), 2)
 
-        cv2.imshow("image", frame1)
         cv2.imwrite("output/motion.png", frame2)
 
         img = Image.open("output/motion.png")

@@ -41,15 +41,25 @@ class GetPicture(Resource):
 
         if(balloonDetected):
             index = getPicIndex()
+            #write pic 
             cv2.imwrite('./result/result_img' + str(index)+ '.jpg', frame.astype(np.uint8));
-            #lat , lon = GettingLocation()
-            cameraId = readCameraByLocation(32.098942,34.917123 )
+            #get location from db 
+            lat , lon = GettingLocation()
+            #get camera id by computer location - this is a hard coded values because team member will install the system
+            cameraId = readCameraByLocation(32.099699,34.917276)
+            #get phone from db 
             phone = readPhoneByCameraId(cameraId)
+            #get slack web hook from db 
             hook = readHookByCameraId(cameraId)
-            #sendAlertToSlack(hook)
-            #sendSMSAlert(phone)
-            weather = GetWeatherConditions(32.098942 , 34.917123)
-            weatherId = BuildWeatherObjectAndPot(weather,32.098942 , 34.917123)
+            #send slack alert
+            sendAlertToSlack(hook)
+            #send sms alert
+            sendSMSAlert(phone)
+            #get weather condition
+            weather = GetWeatherConditions(32.099699,34.917276)
+            #save weather in db
+            weatherId = BuildWeatherObjectAndPot(weather,32.099699,34.917276)
+            #save detection in db
             InsertDetection(weatherId,cameraId,'https://detection-files-bods.s3.amazonaws.com/result_img' + str(index)+ '.jpg')
             # save frame in amazon
             s3 = boto3.client('s3')

@@ -2,7 +2,7 @@ import requests
 import json
 
 
-
+# insert detection - send request to Bods API
 def InsertDetection(weatherId , CameraId , ImagePath):
     data_set = {"CameraId": CameraId, "ImagePath": ImagePath, "WeatherId": weatherId}
     json_dump = json.dumps(data_set)

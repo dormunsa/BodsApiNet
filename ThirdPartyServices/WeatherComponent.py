@@ -11,7 +11,7 @@ def GetWeatherConditions(lat ,long):
     response = requests.request("GET", url, params=querystring)
     json_data = json.loads(response.text)
     return json_data
-
+#insert weather to db
 def BuildWeatherObjectAndPot(weather , lat , long):
     city = (weather['data'][0]['city_name'])
     wind = weather['data'][0]['wind_spd']
